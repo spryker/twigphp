@@ -26,6 +26,7 @@ use Twig\Loader\ArrayLoader;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\LoaderInterface;
 use Twig\Node\ModuleNode;
+use Twig\Node\ModuleNodeInterface;
 use Twig\Node\Node;
 use Twig\NodeVisitor\NodeVisitorInterface;
 use Twig\RuntimeLoader\RuntimeLoaderInterface;
@@ -460,7 +461,7 @@ class Environment
         return $this->lexer->tokenize($source);
     }
 
-    public function setParser(Parser $parser)
+    public function setParser(ParserInterface $parser)
     {
         $this->parser = $parser;
     }
@@ -470,7 +471,7 @@ class Environment
      *
      * @throws SyntaxError When the token stream is syntactically or semantically wrong
      */
-    public function parse(TokenStream $stream): ModuleNode
+    public function parse(TokenStream $stream): ModuleNodeInterface
     {
         if (null === $this->parser) {
             $this->parser = new Parser($this);

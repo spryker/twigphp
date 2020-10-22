@@ -413,7 +413,7 @@ final class ExtensionSet
                 throw new \LogicException('getTokenParsers() must return an array of \Twig\TokenParser\TokenParserInterface.');
             }
 
-            $this->parsers[] = $parser;
+            $this->parsers[$parser->getTag()] = $parser;
         }
 
         // node visitors

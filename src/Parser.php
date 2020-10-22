@@ -19,6 +19,7 @@ use Twig\Node\BodyNode;
 use Twig\Node\Expression\AbstractExpression;
 use Twig\Node\MacroNode;
 use Twig\Node\ModuleNode;
+use Twig\Node\ModuleNodeInterface;
 use Twig\Node\Node;
 use Twig\Node\NodeCaptureInterface;
 use Twig\Node\NodeOutputInterface;
@@ -29,22 +30,22 @@ use Twig\TokenParser\TokenParserInterface;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Parser
+class Parser implements ParserInterface
 {
-    private $stack = [];
-    private $stream;
-    private $parent;
-    private $handlers;
-    private $visitors;
-    private $expressionParser;
-    private $blocks;
-    private $blockStack;
-    private $macros;
-    private $env;
-    private $importedSymbols;
-    private $traits;
-    private $embeddedTemplates = [];
-    private $varNameSalt = 0;
+    protected $stack = [];
+    protected $stream;
+    protected $parent;
+    protected $handlers;
+    protected $visitors;
+    protected $expressionParser;
+    protected $blocks;
+    protected $blockStack;
+    protected $macros;
+    protected $env;
+    protected $importedSymbols;
+    protected $traits;
+    protected $embeddedTemplates = [];
+    protected $varNameSalt = 0;
 
     public function __construct(Environment $env)
     {
@@ -56,7 +57,7 @@ class Parser
         return sprintf('__internal_%s', hash('sha256', __METHOD__.$this->stream->getSourceContext()->getCode().$this->varNameSalt++));
     }
 
-    public function parse(TokenStream $stream, $test = null, bool $dropNeedle = false): ModuleNode
+    public function parse(TokenStream $stream, $test = null, bool $dropNeedle = false): ModuleNodeInterface
     {
         $vars = get_object_vars($this);
         unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
@@ -252,7 +253,7 @@ class Parser
         return \count($this->traits) > 0;
     }
 
-    public function embedTemplate(ModuleNode $template)
+    public function embedTemplate(ModuleNodeInterface $template)
     {
         $template->setIndex(mt_rand());
 
@@ -285,7 +286,7 @@ class Parser
         array_shift($this->importedSymbols);
     }
 
-    public function getExpressionParser(): ExpressionParser
+    public function getExpressionParser()
     {
         return $this->expressionParser;
     }
@@ -310,7 +311,7 @@ class Parser
         return $this->stream->getCurrent();
     }
 
-    private function filterBodyNodes(Node $node, bool $nested = false): ?Node
+    protected function filterBodyNodes(Node $node, bool $nested = false): ?Node
     {
         // check that the body does not contain non-empty output nodes
         if (

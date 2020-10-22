@@ -30,6 +30,8 @@ class Node implements \Countable, \IteratorAggregate
     private $name;
     private $sourceContext;
 
+    protected $parentNodes = [];
+
     /**
      * @param array  $nodes      An array of named nodes
      * @param array  $attributes An array of attributes (should not be nodes)
@@ -172,4 +174,33 @@ class Node implements \Countable, \IteratorAggregate
     {
         return $this->sourceContext;
     }
+
+    /**
+     * @param string $nodeName
+     *
+     * @return array
+     */
+    public function getParentNode(string $nodeName): Node
+    {
+        return $this->parentNodes[$nodeName];
+    }
+
+    /**
+     * @return Node[]
+     */
+    public function getParentNodes(): array
+    {
+        return $this->parentNodes;
+    }
+
+    /**
+     * @param array $parentNodes
+     *
+     * @return self
+     */
+    public function setParentNodes(array $parentNodes): void
+    {
+        $this->parentNodes = $parentNodes;
+    }
+
 }

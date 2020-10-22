@@ -26,7 +26,7 @@ use Twig\Source;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-final class ModuleNode extends Node
+final class ModuleNode extends Node implements ModuleNodeInterface
 {
     public function __construct(Node $body, ?AbstractExpression $parent, Node $blocks, Node $macros, Node $traits, $embeddedTemplates, Source $source)
     {
