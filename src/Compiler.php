@@ -19,14 +19,14 @@ use Twig\Node\Node;
  */
 class Compiler
 {
-    private $lastLine;
-    private $source;
-    private $indentation;
-    private $env;
-    private $debugInfo = [];
-    private $sourceOffset;
-    private $sourceLine;
-    private $varNameSalt = 0;
+    protected $lastLine;
+    protected $source;
+    protected $indentation;
+    protected $env;
+    protected $debugInfo = [];
+    protected $sourceOffset;
+    protected $sourceLine;
+    protected $varNameSalt = 0;
 
     public function __construct(Environment $env)
     {
