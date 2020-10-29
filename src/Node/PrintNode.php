@@ -12,6 +12,7 @@
 
 namespace Twig\Node;
 
+use Spryker\Shared\Twig\Node\Expression\ParentExpression;
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 
@@ -29,6 +30,14 @@ class PrintNode extends Node implements NodeOutputInterface
 
     public function compile(Compiler $compiler): void
     {
+        $expr = $this->getNode('expr');
+        if ($expr instanceof ParentExpression) {
+            $compiler->subcompile($this->getNode('expr'));
+            $compiler->raw(";\n");
+
+            return;
+        }
+
         $compiler
             ->addDebugInfo($this)
             ->write('echo ')

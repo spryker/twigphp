@@ -494,7 +494,10 @@ class Environment
             $this->compiler = new Compiler($this);
         }
 
-        return $this->compiler->compile($node)->getSource();
+        $innerCompiler = clone $this->compiler;
+        $innerCompiler->unset();
+
+        return $innerCompiler->compile($node)->getSource();
     }
 
     /**

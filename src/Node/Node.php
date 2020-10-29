@@ -22,15 +22,15 @@ use Twig\Source;
  */
 class Node implements \Countable, \IteratorAggregate
 {
-    protected $nodes;
-    protected $attributes;
-    protected $lineno;
-    protected $tag;
+    public $nodes;
+    public $attributes;
+    public $lineno;
+    public $tag;
 
-    private $name;
-    private $sourceContext;
+    public $name;
+    public $sourceContext;
 
-    protected $parentNodes = [];
+    public $parentNodes = [];
 
     /**
      * @param array  $nodes      An array of named nodes
